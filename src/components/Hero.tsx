@@ -7,25 +7,40 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const STATS = [
+  { value: "98%", label: "Client Satisfaction" },
+  { value: "150+", label: "Projects Delivered" },
+  { value: "24/7", label: "Support Active" },
+];
+
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const carRef = useRef<HTMLDivElement>(null);
-
   const statsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (prefersReduced) {
+        gsap.set([headlineRef.current, ...statsRef.current], {
+          opacity: 1,
+          y: 0,
+        });
+        return;
+      }
+
       const tl = gsap.timeline();
 
-      // 1. Load Animation
       tl.fromTo(
         headlineRef.current,
         { y: 50, opacity: 0 },
         { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" },
       );
 
-      // 2. Stats Animation
       tl.fromTo(
         statsRef.current,
         { y: 30, opacity: 0 },
@@ -33,7 +48,6 @@ const Hero = () => {
         "-=0.5",
       );
 
-      // 3. Scroll Animation
       gsap.to(carRef.current, {
         x: "120vw",
         ease: "none",
@@ -51,25 +65,29 @@ const Hero = () => {
   return (
     <section
       ref={containerRef}
+      aria-label="Hero section"
       className="relative w-full h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden"
     >
       <h1
         ref={headlineRef}
+        aria-label="Welcome Itzfizz"
         className="text-4xl md:text-6xl font-extrabold tracking-[0.25em] uppercase mb-12 opacity-0 text-gray-900 leading-tight"
       >
         W E L C O M E{" "}
         <span className="relative inline-block">
           <span className="relative z-10 px-2">I T Z F I Z Z</span>
-          <span className="absolute bottom-1 left-0 w-full h-3/5 bg-[#fff355] -z-10 rounded-sm transform -rotate-1"></span>
+          <span
+            aria-hidden="true"
+            className="absolute bottom-1 left-0 w-full h-3/5 bg-[#fff355] -z-10 rounded-sm transform -rotate-1"
+          ></span>
         </span>
       </h1>
 
-      <div className="flex flex-wrap justify-center gap-12 md:gap-24 z-20">
-        {[
-          { value: "98%", label: "Client Satisfaction" },
-          { value: "150+", label: "Projects Delivered" },
-          { value: "24/7", label: "Support Active" },
-        ].map((stat, index) => (
+      <dl
+        aria-label="Company statistics"
+        className="flex flex-wrap justify-center gap-12 md:gap-24 z-20"
+      >
+        {STATS.map((stat, index) => (
           <div
             key={index}
             ref={(el) => {
@@ -77,24 +95,27 @@ const Hero = () => {
             }}
             className="opacity-0"
           >
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900">
+            <dt className="text-5xl md:text-6xl font-black text-gray-900">
               {stat.value}
-            </h2>
-            <p className="text-sm md:text-base text-gray-600 mt-2 tracking-widest uppercase font-bold">
+            </dt>
+            <dd className="text-sm md:text-base text-gray-600 mt-2 tracking-widest uppercase font-bold">
               {stat.label}
-            </p>
+            </dd>
           </div>
         ))}
-      </div>
+      </dl>
 
       <div
         ref={carRef}
+        aria-hidden="true"
         className="absolute bottom-20 left-[-200px] w-48 md:w-64 z-10 will-change-transform"
       >
         <svg
           viewBox="0 0 512 512"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             fill="#111827"
