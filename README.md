@@ -4,7 +4,9 @@ A high-performance, scroll-linked hero section built as part of the Itzfizz Web 
 
 ## 🚀 Live Preview
 
-[_(Vercel link)_](https://scroll-driven-hero-zeta.vercel.app/)
+[scroll-driven-hero-zeta.vercel.app](https://scroll-driven-hero-zeta.vercel.app/)
+
+https://github.com/user-attachments/assets/5075ba1c-b174-4924-a6a1-b250cabdda0c
 
 ## 🛠 Tech Stack
 
@@ -13,17 +15,30 @@ A high-performance, scroll-linked hero section built as part of the Itzfizz Web 
 - **Animation Engine:** GSAP & ScrollTrigger (`@gsap/react`)
 - **Language:** TypeScript
 
-## ✨ Key Features Implemented
+## ✨ Key Features
 
-1. **Initial Load State:** Clean, staggered reveal of typography and impact statistics using `gsap.timeline()`.
+1. **Initial Load Animation:** Staggered reveal of typography and impact statistics using `gsap.timeline()`.
 2. **Scroll Interpolation:** The main visual element strictly follows the user's scroll position (`scrub: 1`).
-3. **Performance First:** Animations use hardware-accelerated CSS transforms avoiding expensive layout reflows.
-4. **Modular Architecture:** Built using industry-standard React practices with clean component separation.
+3. **Performance First:** Animations use hardware-accelerated CSS transforms, avoiding layout reflows.
+4. **Accessibility:** WCAG 2.1 AA compliant — semantic HTML, ARIA labels, `prefers-reduced-motion` support, and screen reader friendly.
+5. **Modular Architecture:** Clean component separation following industry-standard React practices.
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+└── components/
+    └── Hero.tsx
+```
 
 ## 💻 Running Locally
 
 ```bash
-git clone [https://github.com/Saurabh-827/scroll-driven-hero.git](https://github.com/Saurabh-827/scroll-driven-hero.git)
+git clone https://github.com/Saurabh-827/scroll-driven-hero.git
 cd scroll-driven-hero
 npm install
 npm run dev

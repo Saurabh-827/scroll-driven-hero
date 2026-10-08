@@ -21,6 +21,8 @@ body {
   color: #111827;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scrollbar-color: #fff355 #000000;
+  scrollbar-width: thin;
 }
 
 ::-webkit-scrollbar {

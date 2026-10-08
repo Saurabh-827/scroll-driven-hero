@@ -17,19 +17,20 @@ const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const carRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
+        "(prefers-reduced-motion: reduce)"
       ).matches;
 
       if (prefersReduced) {
-        gsap.set([headlineRef.current, ...statsRef.current], {
-          opacity: 1,
-          y: 0,
-        });
+        gsap.set(
+          [headlineRef.current, ...statsRef.current, scrollIndicatorRef.current],
+          { opacity: 1, y: 0 }
+        );
         return;
       }
 
@@ -37,16 +38,32 @@ const Hero = () => {
 
       tl.fromTo(
         headlineRef.current,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" },
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
       );
 
       tl.fromTo(
         statsRef.current,
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power2.out" },
-        "-=0.5",
+        "-=0.5"
       );
+
+      tl.fromTo(
+        scrollIndicatorRef.current,
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        "-=0.2"
+      );
+
+      gsap.to(scrollIndicatorRef.current, {
+        y: 8,
+        repeat: -1,
+        yoyo: true,
+        duration: 0.8,
+        ease: "power1.inOut",
+        delay: 1.5,
+      });
 
       gsap.to(carRef.current, {
         x: "120vw",
@@ -59,7 +76,7 @@ const Hero = () => {
         },
       });
     },
-    { scope: containerRef },
+    { scope: containerRef }
   );
 
   return (
@@ -71,21 +88,23 @@ const Hero = () => {
       <h1
         ref={headlineRef}
         aria-label="Welcome Itzfizz"
-        className="text-4xl md:text-6xl font-extrabold tracking-[0.25em] uppercase mb-12 opacity-0 text-gray-900 leading-tight"
+        className="opacity-0 mb-16 leading-none"
       >
-        W E L C O M E{" "}
-        <span className="relative inline-block">
-          <span className="relative z-10 px-2">I T Z F I Z Z</span>
+        <span className="block text-3xl md:text-5xl font-extrabold tracking-[0.35em] uppercase text-gray-400 mb-3">
+          W E L C O M E
+        </span>
+        <span className="relative inline-block text-6xl md:text-8xl font-black tracking-[0.2em] uppercase text-gray-900">
+          <span className="relative z-10 px-4">I T Z F I Z Z</span>
           <span
             aria-hidden="true"
-            className="absolute bottom-1 left-0 w-full h-3/5 bg-[#fff355] -z-10 rounded-sm transform -rotate-1"
-          ></span>
+            className="absolute inset-0 top-[15%] bottom-[15%] bg-[#fff355] -z-10 rounded-sm -rotate-1"
+          />
         </span>
       </h1>
 
       <dl
         aria-label="Company statistics"
-        className="flex flex-wrap justify-center gap-12 md:gap-24 z-20"
+        className="flex flex-wrap justify-center gap-10 md:gap-20 z-20 mb-16"
       >
         {STATS.map((stat, index) => (
           <div
@@ -93,25 +112,59 @@ const Hero = () => {
             ref={(el) => {
               statsRef.current[index] = el;
             }}
-            className="opacity-0"
+            className="opacity-0 flex flex-col items-center border-b-[3px] border-gray-900 pb-3 min-w-[100px]"
           >
-            <dt className="text-5xl md:text-6xl font-black text-gray-900">
+            <dt className="text-5xl md:text-6xl font-black text-gray-900 leading-none">
               {stat.value}
             </dt>
-            <dd className="text-sm md:text-base text-gray-600 mt-2 tracking-widest uppercase font-bold">
+            <dd className="text-xs md:text-sm text-gray-500 mt-2 tracking-widest uppercase font-bold">
               {stat.label}
             </dd>
           </div>
         ))}
       </dl>
 
+      {/* Scroll indicator — sits just above the ground line */}
+      <div
+        ref={scrollIndicatorRef}
+        aria-hidden="true"
+        className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-0 z-30"
+      >
+        <span className="text-[10px] tracking-[0.3em] uppercase text-gray-400 font-bold">
+          Scroll
+        </span>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 20 20"
+          fill="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M10 3v14M10 17l-5-5M10 17l5-5"
+            stroke="#9ca3af"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+
+      {/* Ground line */}
+      <div
+        aria-hidden="true"
+        className="absolute bottom-10 left-0 w-full h-[3px] bg-gray-900 z-20"
+      />
+
+      {/* Car — viewBox is 0 0 512 400 (trimmed bottom padding) so wheels sit flush on ground line */}
       <div
         ref={carRef}
         aria-hidden="true"
-        className="absolute bottom-20 left-[-200px] w-48 md:w-64 z-10 will-change-transform"
+        className="absolute bottom-[2.6rem] left-[-220px] w-48 md:w-72 z-50 will-change-transform"
       >
         <svg
-          viewBox="0 0 512 512"
+          viewBox="0 0 512 400"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
