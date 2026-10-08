@@ -5,9 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,11 +55,11 @@ const Hero = () => {
     >
       <h1
         ref={headlineRef}
-        className="text-5xl md:text-7xl font-extrabold tracking-widest uppercase mb-12 opacity-0 text-gray-900"
+        className="text-4xl md:text-6xl font-extrabold tracking-[0.25em] uppercase mb-12 opacity-0 text-gray-900 leading-tight"
       >
-        Welcome to <br />
-        <span className="relative inline-block mt-4">
-          <span className="relative z-10 px-2">ITZFIZZ</span>
+        W E L C O M E{" "}
+        <span className="relative inline-block">
+          <span className="relative z-10 px-2">I T Z F I Z Z</span>
           <span className="absolute bottom-1 left-0 w-full h-3/5 bg-[#fff355] -z-10 rounded-sm transform -rotate-1"></span>
         </span>
       </h1>
@@ -91,7 +89,7 @@ const Hero = () => {
 
       <div
         ref={carRef}
-        className="absolute bottom-20 left-[-350px] w-48 md:w-64 z-10 will-change-transform"
+        className="absolute bottom-20 left-[-200px] w-48 md:w-64 z-10 will-change-transform"
       >
         <svg
           viewBox="0 0 512 512"
