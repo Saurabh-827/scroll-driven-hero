@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Scroll-Driven Hero | Smooth UI Motion",
   description:
     "A performant, scroll-linked hero section animation built with Next.js, Tailwind CSS, and GSAP.",
+  icons: {
+    icon: "https://itzfizz.com/wp-content/uploads/2024/07/favicon.svg",
+  },
 };
 
 export default function RootLayout({
